@@ -1,5 +1,7 @@
 import React from "react";
 import axios from "axios";
+import Register from "./components/register/Register";
+import Login from "./components/login/Login";
 
 function App() {
   const [name, setName] = React.useState("");
@@ -61,6 +63,8 @@ function App() {
   };
   return (
     <div className="container mt-5">
+      {/* <Register /> */}
+      <Login />
       <form style={{ maxWidth: "600px" }} className="mx-auto p-4">
         <h3 className="text-center">Form</h3>
         <div className="form-group">
