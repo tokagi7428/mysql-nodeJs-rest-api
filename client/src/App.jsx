@@ -127,8 +127,8 @@ function App() {
       </button>
       {show && (
         <div className="">
-          {employees.map((employee) => (
-            <div className="card mt-3 p-3" key={employee.id}>
+          {employees.map((employee, i) => (
+            <div className="card mt-3 p-3" key={i}>
               <p>{employee.name}</p>
               <p>{employee.age}</p>
               <p>{employee.country}</p>

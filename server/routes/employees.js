@@ -10,7 +10,7 @@ const db = mysql.createConnection({
 });
 
 empRoutes.get("/employees", (req, res) => {
-  db.query("SELECT * from employees", (err, result) => {
+  db.query("SELECT * FROM employees", (err, result) => {
     if (err) {
       console.log(err);
     } else {
@@ -33,14 +33,14 @@ empRoutes.post("/create", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.send("Craeted a new employee successfully");
+        res.status(201).send("Craeted a new employee successfully");
       }
     }
   );
 });
 
 empRoutes.put("/update", (req, res) => {
-  console.log(req.body);
+  // console.log(req.body);
   const id = req.body.id;
   const wage = req.body.wage;
   db.query(
@@ -50,7 +50,7 @@ empRoutes.put("/update", (req, res) => {
       if (err) {
         console.log(err);
       } else {
-        res.send(result);
+        res.status(201).send(result);
       }
     }
   );
@@ -58,11 +58,11 @@ empRoutes.put("/update", (req, res) => {
 
 empRoutes.delete("/delete/:id", (req, res) => {
   const id = req.params.id;
-  db.query("DELETE from employees WHERE id = ?", id, (err, result) => {
+  db.query("DELETE FROM employees WHERE id = ?", id, (err, result) => {
     if (err) {
       console.log(err);
     } else {
-      res.send("Deleted successfully");
+      res.status(201).send("Deleted successfully");
     }
   });
 });

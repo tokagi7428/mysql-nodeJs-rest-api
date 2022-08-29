@@ -2,6 +2,7 @@ const mysql = require("mysql");
 const express = require("express");
 const bcrypJs = require("bcryptjs");
 const userRoutes = express();
+const generateToken = require("../util.js");
 
 const db = mysql.createConnection({
   user: "root",
@@ -30,9 +31,9 @@ userRoutes.post("/register", async (req, res) => {
           [email, hashedPassword, username],
           (err, result) => {
             if (err) {
-              res.json({ status: "Error", message: err });
+              res.status(200).json({ status: "Error", message: err });
             } else {
-              res.json({ status: "ok" });
+              res.status(200).json({ status: "ok" });
               console.log(result);
             }
           }
@@ -54,13 +55,25 @@ userRoutes.post("/login", (req, res) => {
       if (result.length > 0) {
         const { password } = result[0];
         if (bcrypJs.compareSync(req.body.password, password)) {
-          const { username, email } = result[0];
-          res.json({ data: { username, email }, status: "SUCCESS" });
+          const { id, username, email } = result[0];
+
+          res.json({
+            data: {
+              id,
+              username,
+              email,
+              token: generateToken({ id, username, email }),
+            },
+            status: "SUCCESS",
+          });
         } else {
-          res.json({ message: "Email or password  is not correct" });
+          res
+            .status(200)
+            .json({ message: "Email or password  is not correct" });
         }
+      } else {
+        res.status(200).json({ message: "Email or password  is not correct" });
       }
-      res.json({ message: "Email or password  is not correct" });
     }
   );
 });
